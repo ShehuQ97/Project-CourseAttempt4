@@ -1,0 +1,29 @@
+data <- read.table("household_power_consumption.txt",
+                   header = TRUE,
+                   sep = ";",
+                   na.strings = "?")
+data$Date <- as.Date(data$Date, format = "%d/%m/%Y")
+subset_data <- subset(data,
+                      Date == "2007-02-01" | Date == "2007-02-02")
+subset_data$Global_active_power <- as.numeric(subset_data$Global_active_power)
+png("plot1.png", width = 480, height = 480)
+hist(subset_data$Global_active_power,
+     col = "red",
+     main = "Global Active Power",
+     xlab = "Global Active Power (kilowatts)")
+dev.off()
+
+data <- read.table("household_power_consumption.txt",
+                   header = TRUE,
+                   sep = ";",
+                   na.strings = "?")
+data$Date <- as.Date(data$Date, format = "%d/%m/%Y")
+subset_data <- subset(data,
+                      Date == "2007-02-01" | Date == "2007-02-02")
+datetime <- as.POSIXct(paste(subset_data$Date, subset_data$Time))
+gap <- as.numeric(subset_data$Global_active_power)
+png("plot2.png", width = 480, height = 480)
+plot(datetime, gap, type = "l",
+     xlab = "",
+     ylab = "Global Active Power (kilowatts)")
+dev.off()
